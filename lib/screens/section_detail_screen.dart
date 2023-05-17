@@ -15,7 +15,8 @@ class SectionDetailScreen extends StatefulWidget {
 class _SectionDetailScreenState extends State<SectionDetailScreen> {
 
   List<SectionDetailModel> sectionDetails = [];
-List<int> count=List<int>.filled(20, 0);
+   late int count;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -35,6 +36,7 @@ List<int> count=List<int>.filled(20, 0);
         child: ListView.separated(
           physics: BouncingScrollPhysics(),
             itemBuilder: (context , index) {
+             count=sectionDetails[index].count!;
               return Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -55,19 +57,31 @@ List<int> count=List<int>.filled(20, 0);
                         fontSize: 20
                       ),),
                     ),
+                    
                     if(sectionDetails[index].sectionId==1||
                     sectionDetails[index].sectionId==2||
                     sectionDetails[index].sectionId==6)
-                     ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green),
-                      onPressed: (){  setState(() {
-                        if(sectionDetails[index].count==0){
-                          sectionDetails[index].count=0 ;}
-                          else{sectionDetails[index].count =(sectionDetails[index].count!-1);}
-                     });},
-                       child: Text("${sectionDetails[index].count}"),
-                      )
+                    
+                     Row(
+                      
+                       children: [
+                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green),
+                          onPressed: (){  setState(() {
+                            if(sectionDetails[index].count==0){
+                              sectionDetails[index].count=0 ;}
+                              else{sectionDetails[index].count =sectionDetails[index].count!-1;}
+                         });},
+                           child: Text("${sectionDetails[index].count}"),
+                          ),
+                          IconButton(onPressed: (){
+                            setState(() {
+                            sectionDetails[index].count=count;  });
+                            },
+                             icon:Icon(Icons.refresh) )
+                       ],
+                     )
                   ],
                 ),
               );
